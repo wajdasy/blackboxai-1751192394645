@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" x-data="app()" x-init="init()" xmlns="http://www.w3.org/1999/xhtml" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tibia Coins Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      min-height: 100vh;
+    }
+    /* Neumorphism card style */
+    .neumorph {
+      background: #e0e5ec;
+      box-shadow:
+        8px 8px 15px #a3b1c6,
+        -8px -8px 15px #ffffff;
+      border-radius: 1rem;
+    }
+    /* Glassmorphism modal */
+    .glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    /* Custom slider thumb */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      background: #4f46e5;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 5px #4f46e5;
+      transition: background 0.3s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      background: #4338ca;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      background: #4f46e5;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 5px #4f46e5;
+      transition: background 0.3s ease;
+    }
+    input[type=range]::-moz-range-thumb:hover {
+      background: #4338ca;
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-semibold text-indigo-600">Tibia Coins Store</h1>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="#purchase" class="text-gray-700 hover:text-indigo-600 transition">Buy Coins</a>
+        <a href="faq.html" class="text-gray-700 hover:text-indigo-600 transition">FAQ</a>
+        <a href="terms.html" class="text-gray-700 hover:text-indigo-600 transition">Terms</a>
+        <a href="privacy.html" class="text-gray-700 hover:text-indigo-600 transition">Privacy</a>
+        <a href="contact.html" class="text-gray-700 hover:text-indigo-600 transition">Contact</a>
+      </nav>
+      <button @click="openMobileMenu = !openMobileMenu" class="md:hidden focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div x-show="openMobileMenu" @click.away="openMobileMenu = false" class="md:hidden bg-white shadow-md">
+      <nav class="flex flex-col space-y-2 px-6 py-4">
+        <a href="#purchase" class="text-gray-700 hover:text-indigo-600 transition">Buy Coins</a>
+        <a href="faq.html" class="text-gray-700 hover:text-indigo-600 transition">FAQ</a>
+        <a href="terms.html" class="text-gray-700 hover:text-indigo-600 transition">Terms</a>
+        <a href="privacy.html" class="text-gray-700 hover:text-indigo-600 transition">Privacy</a>
+        <a href="contact.html" class="text-gray-700 hover:text-indigo-600 transition">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container mx-auto px-6 py-20 text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-indigo-700 mb-4">Buy Tibia Coins Easily & Securely</h2>
+    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">Get your Tibia Coins instantly with our safe and fast service. Choose your quantity and checkout with multiple payment options.</p>
+    <a href="#purchase" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition">Buy Now</a>
+  </section>
+
+  <!-- Purchase Section -->
+  <section id="purchase" class="container mx-auto px-6 py-12">
+    <div class="max-w-4xl mx-auto bg-white neumorph p-8 shadow-lg rounded-xl">
+      <h3 class="text-2xl font-semibold text-indigo-700 mb-6 text-center">Purchase Tibia Coins</h3>
+      <div class="flex flex-col md:flex-row md:space-x-10">
+        <!-- Quantity Selector -->
+        <div class="flex-1 mb-8 md:mb-0">
+          <label for="quantity" class="block text-gray-700 font-medium mb-2">Select Quantity (Multiples of 25)</label>
+          <input type="range" id="quantity" min="25" max="500" step="25" x-model.number="quantity" class="w-full" />
+          <div class="mt-4 text-center text-xl font-semibold text-indigo-600" x-text="quantity + ' Tibia Coins'"></div>
+          <div class="mt-2 text-center text-lg text-gray-700">Price: <span class="font-bold" x-text="price.toFixed(2) + ' PLN'"></span></div>
+        </div>
+
+        <!-- Checkout Form -->
+        <form @submit.prevent="submitOrder" class="flex-1 bg-gray-50 rounded-lg p-6 glass shadow-md">
+          <h4 class="text-lg font-semibold mb-4 text-indigo-700">Checkout</h4>
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 mb-1">Email Address</label>
+            <input type="email" id="email" x-model="email" required class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+          <div class="mb-4">
+            <label for="character" class="block text-gray-700 mb-1">Character Name</label>
+            <input type="text" id="character" x-model="character" required class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+          <div class="mb-4">
+            <label for="world" class="block text-gray-700 mb-1">World / Server Name</label>
+            <input type="text" id="world" x-model="world" required class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-1">Payment Method</label>
+            <div class="flex space-x-4">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="payment" value="PayPal" x-model="paymentMethod" required />
+                <span>PayPal</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="payment" value="BLIK" x-model="paymentMethod" />
+                <span>BLIK</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="payment" value="Bank Transfer" x-model="paymentMethod" />
+                <span>Bank Transfer</span>
+              </label>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">Confirm Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order Confirmation Modal -->
+  <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+    <div class="bg-white glass p-8 rounded-xl max-w-md w-full shadow-lg text-center" @click.away="showModal = false">
+      <h3 class="text-2xl font-semibold text-indigo-700 mb-4">Order Confirmed!</h3>
+      <p class="mb-4">Thank you for your purchase of <span class="font-bold" x-text="quantity + ' Tibia Coins'"></span>.</p>
+      <p class="mb-4">Estimated delivery time: <span class="font-semibold">Within 15 minutes</span>.</p>
+      <button @click="showModal = false" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-inner mt-20 py-6">
+    <div class="container mx-auto px-6 text-center text-gray-600 text-sm">
+      &copy; 2024 Tibia Coins Store. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    function app() {
+      return {
+        openMobileMenu: false,
+        quantity: 25,
+        pricePer25: 9.99,
+        email: '',
+        character: '',
+        world: '',
+        paymentMethod: '',
+        showModal: false,
+        get price() {
+          return (this.quantity / 25) * this.pricePer25;
+        },
+        submitOrder() {
+          if (!this.email || !this.character || !this.world || !this.paymentMethod) {
+            alert('Please fill in all required fields and select a payment method.');
+            return;
+          }
+          this.showModal = true;
+        },
+        init() {
+          // Ensure quantity is multiple of 25 on load
+          if (this.quantity % 25 !== 0) {
+            this.quantity = 25;
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
